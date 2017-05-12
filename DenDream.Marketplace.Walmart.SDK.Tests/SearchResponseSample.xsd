@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="imageEntities">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="thumbnailImage" type="xs:string" minOccurs="0" />
+        <xs:element name="mediumImage" type="xs:string" minOccurs="0" />
+        <xs:element name="largeImage" type="xs:string" minOccurs="0" />
+        <xs:element name="entityType" type="xs:string" minOccurs="0" />
+        <xs:element ref="imageEntities" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="searchresponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="query" type="xs:string" minOccurs="0" />
+        <xs:element name="sort" type="xs:string" minOccurs="0" />
+        <xs:element name="responseGroup" type="xs:string" minOccurs="0" />
+        <xs:element name="totalResults" type="xs:string" minOccurs="0" />
+        <xs:element name="start" type="xs:string" minOccurs="0" />
+        <xs:element name="numItems" type="xs:string" minOccurs="0" />
+        <xs:element name="facets" type="xs:string" minOccurs="0" />
+        <xs:element name="items" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="itemId" type="xs:string" minOccurs="0" />
+                    <xs:element name="parentItemId" type="xs:string" minOccurs="0" />
+                    <xs:element name="name" type="xs:string" minOccurs="0" />
+                    <xs:element name="msrp" type="xs:string" minOccurs="0" />
+                    <xs:element name="salePrice" type="xs:string" minOccurs="0" />
+                    <xs:element name="upc" type="xs:string" minOccurs="0" />
+                    <xs:element name="categoryPath" type="xs:string" minOccurs="0" />
+                    <xs:element name="shortDescription" type="xs:string" minOccurs="0" />
+                    <xs:element name="longDescription" type="xs:string" minOccurs="0" />
+                    <xs:element name="thumbnailImage" type="xs:string" minOccurs="0" />
+                    <xs:element name="mediumImage" type="xs:string" minOccurs="0" />
+                    <xs:element name="largeImage" type="xs:string" minOccurs="0" />
+                    <xs:element name="productTrackingUrl" type="xs:string" minOccurs="0" />
+                    <xs:element name="standardShipRate" type="xs:string" minOccurs="0" />
+                    <xs:element name="marketplace" type="xs:string" minOccurs="0" />
+                    <xs:element name="modelNumber" type="xs:string" minOccurs="0" />
+                    <xs:element name="sellerInfo" type="xs:string" minOccurs="0" />
+                    <xs:element name="productUrl" type="xs:string" minOccurs="0" />
+                    <xs:element name="customerRating" type="xs:string" minOccurs="0" />
+                    <xs:element name="numReviews" type="xs:string" minOccurs="0" />
+                    <xs:element name="customerRatingImage" type="xs:string" minOccurs="0" />
+                    <xs:element name="categoryNode" type="xs:string" minOccurs="0" />
+                    <xs:element name="bundle" type="xs:string" minOccurs="0" />
+                    <xs:element name="stock" type="xs:string" minOccurs="0" />
+                    <xs:element name="addToCartUrl" type="xs:string" minOccurs="0" />
+                    <xs:element name="affiliateAddToCartUrl" type="xs:string" minOccurs="0" />
+                    <xs:element name="freeShippingOver50Dollars" type="xs:string" minOccurs="0" />
+                    <xs:element name="offerType" type="xs:string" minOccurs="0" />
+                    <xs:element name="isTwoDayShippingEligible" type="xs:string" minOccurs="0" />
+                    <xs:element name="availableOnline" type="xs:string" minOccurs="0" />
+                    <xs:element name="giftOptions" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="allowGiftWrap" type="xs:string" minOccurs="0" />
+                          <xs:element name="allowGiftMessage" type="xs:string" minOccurs="0" />
+                          <xs:element name="allowGiftReceipt" type="xs:string" minOccurs="0" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element ref="imageEntities" minOccurs="0" maxOccurs="unbounded" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="imageEntities" />
+        <xs:element ref="searchresponse" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

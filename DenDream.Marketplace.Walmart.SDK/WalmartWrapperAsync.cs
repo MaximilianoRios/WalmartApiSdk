@@ -1,4 +1,5 @@
-﻿using DenDream.Marketplace.Walmart.SDK.Model;
+﻿using DenDream.Marketplace.Walmart.SDK.Exceptions;
+using DenDream.Marketplace.Walmart.SDK.Model;
 using DenDream.Marketplace.Walmart.SDK.Operation;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,7 @@ namespace DenDream.Marketplace.Walmart.SDK
         public event Action<string> JsonReceived;
         private string _userAgent;
 
-        public event Action<WalmartErrorResponse> ErrorReceived;
-
-        public string ApiKey { get; internal set;  }
+        public string ApiKey { get; internal set; }
 
         public WalmartWrapper(string apiKey)
         {
@@ -35,16 +34,12 @@ namespace DenDream.Marketplace.Walmart.SDK
             var operation = this.SearchOperation(query, categoryId, format, facet);
 
             var webResponse = await this.RequestAsync(operation);
-            if(webResponse.StatusCode == HttpStatusCode.OK)
+            if (webResponse.StatusCode == HttpStatusCode.OK)
             {
                 return XmlHelper.ParseXml<WalmartSearchResponse>(webResponse.Content);
             }
-            else
-            {
-                var errorResponse = XmlHelper.ParseXml<WalmartErrorResponse>(webResponse.Content);
-                this.ErrorReceived?.Invoke(errorResponse);
-            }
-            return null;
+            var errorResponse = XmlHelper.ParseXml<WalmartErrorResponse>(webResponse.Content);
+            throw (new WalmartOperationException("Search operation failed", errorResponse));
         }
 
         private WalmartSearchOperation SearchOperation(string query, int? categoryId, WalmartResponseFormat format, bool facet)
@@ -53,7 +48,7 @@ namespace DenDream.Marketplace.Walmart.SDK
             operation.Query(query)
                 .Facet(facet)
                 .Format(format);
-            if(categoryId != null)
+            if (categoryId != null)
             {
                 operation.Category((int)categoryId);
             }

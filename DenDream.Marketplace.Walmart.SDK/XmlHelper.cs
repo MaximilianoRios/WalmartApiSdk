@@ -34,7 +34,7 @@ namespace DenDream.Marketplace.Walmart.SDK
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return default(T);
             }

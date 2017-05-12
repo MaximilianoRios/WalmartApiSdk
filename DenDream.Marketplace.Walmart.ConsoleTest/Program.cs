@@ -1,4 +1,5 @@
 ﻿using DenDream.Marketplace.Walmart.SDK;
+using DenDream.Marketplace.Walmart.SDK.Exceptions;
 using DenDream.Marketplace.Walmart.SDK.Model;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,6 @@ namespace DenDream.Marketplace.Walmart.ConsoleTest
         {
             var apiKey = "pwyvatx2ujcrutpmysdm5sgc";
             var wrapper = new WalmartWrapper(apiKey);
-            wrapper.ErrorReceived += Wrapper_ErrorReceived;
 
             Console.WriteLine("Searching....");
             Task.Run(async () =>
@@ -27,6 +27,16 @@ namespace DenDream.Marketplace.Walmart.ConsoleTest
                     Console.WriteLine($"Items: {response.NumItems}");
                     Console.WriteLine($"Query: {response.Query}");
                     Console.WriteLine($"Response group: {response.ResponseGroup}");
+
+                    Console.WriteLine("ITEMS:");
+                    foreach (var item in response.Result.Items)
+                    {
+                        Console.WriteLine($"{item.Id} - {item.Name} (${item.SalePrice})");
+                    }
+                }
+                catch(WalmartOperationException operationException)
+                {
+                    ShowErrors(operationException.ErrorResponse);
                 }
                 catch (Exception ex)
                 {
@@ -38,7 +48,7 @@ namespace DenDream.Marketplace.Walmart.ConsoleTest
             Console.ReadLine();
         }
 
-        private static void Wrapper_ErrorReceived(WalmartErrorResponse errorResponse)
+        private static void ShowErrors(WalmartErrorResponse errorResponse)
         {
             Console.WriteLine("One or more errors have been received:");
             foreach (var error in errorResponse.Errors)
