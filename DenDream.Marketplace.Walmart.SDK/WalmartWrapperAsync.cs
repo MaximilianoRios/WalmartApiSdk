@@ -1,4 +1,5 @@
-﻿using DenDream.Marketplace.Walmart.SDK.Exceptions;
+﻿using DenDream.Marketplace.Walmart.SDK.Converters;
+using DenDream.Marketplace.Walmart.SDK.Exceptions;
 using DenDream.Marketplace.Walmart.SDK.Model;
 using DenDream.Marketplace.Walmart.SDK.Operation;
 using System;
@@ -32,13 +33,21 @@ namespace DenDream.Marketplace.Walmart.SDK
         public async Task<WalmartSearchResponse> SearchAsync(string query, int? categoryId = null, WalmartResponseFormat format = WalmartResponseFormat.Xml, bool facet = false, string facetFilter = null, string facetRange = null)
         {
             var operation = this.SearchOperation(query, categoryId, format, facet);
+            var converter = ConverterFactory.GetConverter(format);
 
             var webResponse = await this.RequestAsync(operation);
             if (webResponse.StatusCode == HttpStatusCode.OK)
             {
-                return XmlHelper.ParseXml<WalmartSearchResponse>(webResponse.Content);
+                if (format == WalmartResponseFormat.Xml)
+                {
+                    return converter.Convert<WalmartXmlSearchResponse>(webResponse.Content).GetResponse();
+                }
+                else
+                {
+                    return converter.Convert<WalmartJsonSearchResponse>(webResponse.Content).GetResponse();
+                }
             }
-            var errorResponse = XmlHelper.ParseXml<WalmartErrorResponse>(webResponse.Content);
+            var errorResponse = converter.Convert<WalmartErrorResponse>(webResponse.Content);
             throw (new WalmartOperationException("Search operation failed", errorResponse));
         }
 
@@ -72,10 +81,10 @@ namespace DenDream.Marketplace.Walmart.SDK
                 {
                     using (var streamReader = new StreamReader(response.GetResponseStream()))
                     {
-                        var xml = await streamReader.ReadToEndAsync();
-                        this.XmlReceived?.Invoke(xml);
+                        var stringResponse = await streamReader.ReadToEndAsync();
+                        // this.XmlReceived?.Invoke(stringResponse);
 
-                        return new ExtendedWebResponse(HttpStatusCode.OK, xml);
+                        return new ExtendedWebResponse(HttpStatusCode.OK, stringResponse);
                     }
                 }
             }
@@ -90,10 +99,10 @@ namespace DenDream.Marketplace.Walmart.SDK
                 {
                     using (var streamReader = new StreamReader(response.GetResponseStream()))
                     {
-                        var xml = await streamReader.ReadToEndAsync();
-                        this.XmlReceived?.Invoke(xml);
+                        var stringResponse = await streamReader.ReadToEndAsync();
+                        this.XmlReceived?.Invoke(stringResponse);
 
-                        return new ExtendedWebResponse(response.StatusCode, xml);
+                        return new ExtendedWebResponse(response.StatusCode, stringResponse);
                     }
                 }
             }

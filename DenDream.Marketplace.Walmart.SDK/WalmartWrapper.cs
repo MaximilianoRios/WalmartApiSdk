@@ -11,7 +11,7 @@ namespace DenDream.Marketplace.Walmart.SDK
     {
         public WalmartSearchResponse Search(string query, int? categoryId, WalmartResponseFormat format = WalmartResponseFormat.Json, bool facet = false, string facetFilter = null, string facetRange = null)
         {
-            throw new NotImplementedException();
+            return this.SearchAsync(query, categoryId, format, facet, facetFilter, facetRange).Result;
         }
 
     }

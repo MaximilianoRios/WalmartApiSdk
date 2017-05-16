@@ -21,7 +21,7 @@ namespace DenDream.Marketplace.Walmart.ConsoleTest
             {
                 try
                 {
-                    var response = await wrapper.SearchAsync("Vintage Mario Bros with console");
+                    var response = await wrapper.SearchAsync("Vintage Mario Bros with console", null, WalmartResponseFormat.Json);
                     Console.WriteLine("RESULT:");
                     Console.WriteLine($"Start: {response.Start}");
                     Console.WriteLine($"Items: {response.NumItems}");
@@ -29,7 +29,7 @@ namespace DenDream.Marketplace.Walmart.ConsoleTest
                     Console.WriteLine($"Response group: {response.ResponseGroup}");
 
                     Console.WriteLine("ITEMS:");
-                    foreach (var item in response.Result.Items)
+                    foreach (var item in response.Items)
                     {
                         Console.WriteLine($"{item.Id} - {item.Name} (${item.SalePrice})");
                     }

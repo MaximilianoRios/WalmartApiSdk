@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace DenDream.Marketplace.Walmart.SDK
+namespace DenDream.Marketplace.Walmart.SDK.Converters
 {
-    public static class XmlHelper
+    public class XmlConverter : IConverter
     {
         public class NamespaceIgnorantXmlTextReader : XmlTextReader
         {
@@ -21,7 +21,7 @@ namespace DenDream.Marketplace.Walmart.SDK
             }
         }
 
-        public static T ParseXml<T>(string xml)
+        public T Convert<T>(string xml)
         {
             try
             {

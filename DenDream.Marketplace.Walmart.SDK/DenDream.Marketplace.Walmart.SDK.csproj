@@ -43,6 +43,10 @@
       <HintPath>..\packages\Moq.4.7.10\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -54,19 +58,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\ConverterFactory.cs" />
+    <Compile Include="Converters\IConverter.cs" />
     <Compile Include="Exceptions\WalmartOperationException.cs" />
     <Compile Include="IWalmartWrapper.cs" />
+    <Compile Include="Converters\JsonConverter.cs" />
     <Compile Include="Model\ExtendedWebResponse.cs" />
     <Compile Include="Model\WalmartEnums.cs" />
     <Compile Include="Model\WalmartErrorResponse.cs" />
+    <Compile Include="Model\WalmartJsonSearchResponse.cs" />
+    <Compile Include="Model\WalmartSearchBaseResponse.cs" />
     <Compile Include="Model\WalmartSearchResponse.cs" />
+    <Compile Include="Model\WalmartXmlSearchResponse.cs" />
     <Compile Include="Operation\WalmartOperationBase.cs" />
     <Compile Include="Operation\WalmartSearchOperation.cs" />
     <Compile Include="Operation\WalmartUriBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WalmartWrapper.cs" />
     <Compile Include="WalmartWrapperAsync.cs" />
-    <Compile Include="XmlHelper.cs" />
+    <Compile Include="Converters\XmlConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
