@@ -21,9 +21,9 @@ namespace DenDream.Marketplace.Walmart.ConsoleTest
             {
                 try
                 {
-                    var facetsBuilder = new FacetsFilterBuilder();
-                    facetsBuilder.AddFacet("availableOnline", true);
-                    var response = await wrapper.SearchAsync("Vintage Mario Bros with console", null, WalmartResponseFormat.Json, true, facetsBuilder.Facets);
+                    //var facetsBuilder = new FacetsFilterBuilder();
+                    //facetsBuilder.AddFacet("availableOnline", true);
+                    var response = await wrapper.SearchAsync("Vintage Mario Bros with console", null, WalmartResponseFormat.Json, true);
 
                     Console.WriteLine("RESULT:");
                     Console.WriteLine($"Start: {response.Start}");
