@@ -1,4 +1,5 @@
-﻿using DenDream.Marketplace.Walmart.SDK.Model;
+﻿using DenDream.Marketplace.Walmart.SDK.Exceptions;
+using DenDream.Marketplace.Walmart.SDK.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,25 @@ namespace DenDream.Marketplace.Walmart.SDK.Operation
             {
                 base.AddOrReplace("facet", "on");
             }
+            return this;
+        }
+
+        /// <summary>
+        /// Facet filters are field/value from the list of available fields.
+        /// </summary>
+        /// <param name="fieldName"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public WalmartSearchOperation AddFacetFilter(string fieldName, object value)
+        {
+            var key = $"facet.filter";
+            var currentValue = string.Empty;
+            if (ParameterValue(key) != null)
+            {
+                currentValue += ",";
+            }
+            currentValue += $"{fieldName}={value}";
+            base.AddOrReplace(key, currentValue);
             return this;
         }
 

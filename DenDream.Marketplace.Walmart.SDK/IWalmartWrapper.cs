@@ -19,8 +19,8 @@ namespace DenDream.Marketplace.Walmart.SDK
         /// <param name="facetFilter">Filter to apply on the facet attribute values to narrow down the search.</param>
         /// <param name="facetRange">Range filter for facets which take range values, like price.</param>
         /// <returns></returns>
-        WalmartSearchResponse Search(string query, int? categoryId, WalmartResponseFormat format = WalmartResponseFormat.Json, bool facet = false, string facetFilter = null, string facetRange = null);
-        Task<WalmartSearchResponse> SearchAsync(string query, int? categoryId, WalmartResponseFormat format = WalmartResponseFormat.Json, bool facet = false, string facetFilter = null, string facetRange = null);
+        WalmartSearchResponse Search(string query, int? categoryId, WalmartResponseFormat format = WalmartResponseFormat.Json, bool facet = false, Dictionary<string, object> facetFilters = null, string[] facetRanges = null);
+        Task<WalmartSearchResponse> SearchAsync(string query, int? categoryId, WalmartResponseFormat format = WalmartResponseFormat.Json, bool facet = false, Dictionary<string, object> facetFilters = null, string[] facetRanges = null);
 
 
     }

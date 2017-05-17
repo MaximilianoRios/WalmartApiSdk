@@ -9,9 +9,9 @@ namespace DenDream.Marketplace.Walmart.SDK
 {
     public partial class WalmartWrapper : IWalmartWrapper
     {
-        public WalmartSearchResponse Search(string query, int? categoryId, WalmartResponseFormat format = WalmartResponseFormat.Json, bool facet = false, string facetFilter = null, string facetRange = null)
+        public WalmartSearchResponse Search(string query, int? categoryId, WalmartResponseFormat format = WalmartResponseFormat.Json, bool facet = false, Dictionary<string, object> facetFilters = null, string[] facetRanges = null)
         {
-            return this.SearchAsync(query, categoryId, format, facet, facetFilter, facetRange).Result;
+            return this.SearchAsync(query, categoryId, format, facet, facetFilters, facetRanges).Result;
         }
 
     }

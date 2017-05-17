@@ -14,8 +14,6 @@ namespace DenDream.Marketplace.Walmart.SDK
 {
     public partial class WalmartWrapper : IWalmartWrapper
     {
-        public event Action<string> XmlReceived;
-        public event Action<string> JsonReceived;
         private string _userAgent;
 
         public string ApiKey { get; internal set; }
@@ -30,9 +28,9 @@ namespace DenDream.Marketplace.Walmart.SDK
             this._userAgent = userAgent;
         }
 
-        public async Task<WalmartSearchResponse> SearchAsync(string query, int? categoryId = null, WalmartResponseFormat format = WalmartResponseFormat.Xml, bool facet = false, string facetFilter = null, string facetRange = null)
+        public async Task<WalmartSearchResponse> SearchAsync(string query, int? categoryId = null, WalmartResponseFormat format = WalmartResponseFormat.Xml, bool facet = false, Dictionary<string, object> facetFilters = null, string[] facetRanges = null)
         {
-            var operation = this.SearchOperation(query, categoryId, format, facet);
+            var operation = this.SearchOperation(query, categoryId, format, facet, facetFilters);
             var converter = ConverterFactory.GetConverter(format);
 
             var webResponse = await this.RequestAsync(operation);
@@ -51,12 +49,20 @@ namespace DenDream.Marketplace.Walmart.SDK
             throw (new WalmartOperationException("Search operation failed", errorResponse));
         }
 
-        private WalmartSearchOperation SearchOperation(string query, int? categoryId, WalmartResponseFormat format, bool facet)
+        private WalmartSearchOperation SearchOperation(string query, int? categoryId, WalmartResponseFormat format, bool facet, Dictionary<string, object> facetFilters = null)
         {
             var operation = new WalmartSearchOperation(ApiKey);
             operation.Query(query)
                 .Facet(facet)
                 .Format(format);
+            if(facetFilters != null)
+            {
+                foreach(var filterKey in facetFilters.Keys)
+                {
+                    operation.AddFacetFilter(filterKey, facetFilters[filterKey]);
+                }
+            }
+
             if (categoryId != null)
             {
                 operation.Category((int)categoryId);
@@ -100,7 +106,6 @@ namespace DenDream.Marketplace.Walmart.SDK
                     using (var streamReader = new StreamReader(response.GetResponseStream()))
                     {
                         var stringResponse = await streamReader.ReadToEndAsync();
-                        this.XmlReceived?.Invoke(stringResponse);
 
                         return new ExtendedWebResponse(response.StatusCode, stringResponse);
                     }

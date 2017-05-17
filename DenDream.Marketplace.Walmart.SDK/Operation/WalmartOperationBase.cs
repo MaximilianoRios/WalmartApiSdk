@@ -26,12 +26,21 @@ namespace DenDream.Marketplace.Walmart.SDK.Operation
         {
             if (this.ParameterDictionary.ContainsKey(param))
             {
-                this.ParameterDictionary[param] = value.ToString();
+                this.ParameterDictionary[param] = value?.ToString();
             }
             else
             {
-                this.ParameterDictionary.Add(param, value.ToString());
+                this.ParameterDictionary.Add(param, value?.ToString());
             }
+        }
+
+        protected object ParameterValue(string param)
+        {
+            if (this.ParameterDictionary.ContainsKey(param))
+            {
+                return this.ParameterDictionary[param];
+            }
+            return null;
         }
 
         public string QueryParams

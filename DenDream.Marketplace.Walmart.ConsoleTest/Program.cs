@@ -21,7 +21,10 @@ namespace DenDream.Marketplace.Walmart.ConsoleTest
             {
                 try
                 {
-                    var response = await wrapper.SearchAsync("Vintage Mario Bros with console", null, WalmartResponseFormat.Json);
+                    var facetsBuilder = new FacetsFilterBuilder();
+                    facetsBuilder.AddFacet("availableOnline", true);
+                    var response = await wrapper.SearchAsync("Vintage Mario Bros with console", null, WalmartResponseFormat.Json, true, facetsBuilder.Facets);
+
                     Console.WriteLine("RESULT:");
                     Console.WriteLine($"Start: {response.Start}");
                     Console.WriteLine($"Items: {response.NumItems}");
@@ -31,8 +34,11 @@ namespace DenDream.Marketplace.Walmart.ConsoleTest
                     Console.WriteLine("ITEMS:");
                     foreach (var item in response.Items)
                     {
-                        Console.WriteLine($"{item.Id} - {item.Name} (${item.SalePrice})");
+                        Console.WriteLine($"{item.Id} - {item.Name} (${item.SalePrice}) ({item.AvailableOnline})");
                     }
+
+                    // Force an invalid search
+                    var invalidSearch = await wrapper.SearchAsync(null, null, WalmartResponseFormat.Xml);
                 }
                 catch(WalmartOperationException operationException)
                 {

@@ -60,7 +60,9 @@
   <ItemGroup>
     <Compile Include="Converters\ConverterFactory.cs" />
     <Compile Include="Converters\IConverter.cs" />
+    <Compile Include="Exceptions\InvalidFacetFilterException.cs" />
     <Compile Include="Exceptions\WalmartOperationException.cs" />
+    <Compile Include="FacetsFilterBuilder.cs" />
     <Compile Include="IWalmartWrapper.cs" />
     <Compile Include="Converters\JsonConverter.cs" />
     <Compile Include="Model\ExtendedWebResponse.cs" />

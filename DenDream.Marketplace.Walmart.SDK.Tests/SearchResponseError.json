@@ -1,0 +1,8 @@
+﻿{
+  "errors": [
+    {
+      "code": 4009,
+      "message": "Missing search query"
+    }
+  ]
+}
