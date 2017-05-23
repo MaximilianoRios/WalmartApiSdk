@@ -1,6 +1,8 @@
 ﻿using DenDream.Marketplace.Walmart.SDK.Converters;
 using DenDream.Marketplace.Walmart.SDK.Exceptions;
 using DenDream.Marketplace.Walmart.SDK.Model;
+using DenDream.Marketplace.Walmart.SDK.Model.Json;
+using DenDream.Marketplace.Walmart.SDK.Model.Xml;
 using DenDream.Marketplace.Walmart.SDK.Operation;
 using System;
 using System.Collections.Generic;
@@ -28,7 +30,7 @@ namespace DenDream.Marketplace.Walmart.SDK
             this._userAgent = userAgent;
         }
 
-        public async Task<WalmartSearchResponse> SearchAsync(string query, int? categoryId = null, WalmartResponseFormat format = WalmartResponseFormat.Xml, bool facet = false, Dictionary<string, object> facetFilters = null, string[] facetRanges = null)
+        public async Task<IWalmartSearchResponse> SearchAsync(string query, int? categoryId = null, WalmartResponseFormat format = WalmartResponseFormat.Xml, bool facet = false, Dictionary<string, object> facetFilters = null, string[] facetRanges = null)
         {
             var operation = this.SearchOperation(query, categoryId, format, facet, facetFilters);
             var converter = ConverterFactory.GetConverter(format);
@@ -38,11 +40,11 @@ namespace DenDream.Marketplace.Walmart.SDK
             {
                 if (format == WalmartResponseFormat.Xml)
                 {
-                    return converter.Convert<WalmartXmlSearchResponse>(webResponse.Content).GetResponse();
+                    return converter.Convert<WalmartXmlSearchResponse>(webResponse.Content) as IWalmartSearchResponse;
                 }
                 else
                 {
-                    return converter.Convert<WalmartJsonSearchResponse>(webResponse.Content).GetResponse();
+                    return converter.Convert<WalmartJsonSearchResponse>(webResponse.Content) as IWalmartSearchResponse;
                 }
             }
             var errorResponse = converter.Convert<WalmartErrorResponse>(webResponse.Content);

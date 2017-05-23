@@ -50,6 +50,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,12 +67,13 @@
     <Compile Include="IWalmartWrapper.cs" />
     <Compile Include="Converters\JsonConverter.cs" />
     <Compile Include="Model\ExtendedWebResponse.cs" />
+    <Compile Include="Model\IWalmartSearchResponse.cs" />
     <Compile Include="Model\WalmartEnums.cs" />
     <Compile Include="Model\WalmartErrorResponse.cs" />
-    <Compile Include="Model\WalmartJsonSearchResponse.cs" />
+    <Compile Include="Model\Json\WalmartJsonSearchResponse.cs" />
     <Compile Include="Model\WalmartSearchBaseResponse.cs" />
     <Compile Include="Model\WalmartSearchResponse.cs" />
-    <Compile Include="Model\WalmartXmlSearchResponse.cs" />
+    <Compile Include="Model\Xml\WalmartXmlSearchResponse.cs" />
     <Compile Include="Operation\WalmartOperationBase.cs" />
     <Compile Include="Operation\WalmartSearchOperation.cs" />
     <Compile Include="Operation\WalmartUriBuilder.cs" />

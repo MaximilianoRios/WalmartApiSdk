@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace DenDream.Marketplace.Walmart.SDK.Model
 {
@@ -10,7 +14,7 @@ namespace DenDream.Marketplace.Walmart.SDK.Model
     /// Class that holds the common parameters between XML and JSON. Deserialization is very different
     /// between them and it requires an intermmediate abstraction
     /// </summary>
-    public class WalmartSearchResponse
+    public class WalmartSearchResponse 
     {
         public string Query { get; set; }
 
@@ -27,7 +31,6 @@ namespace DenDream.Marketplace.Walmart.SDK.Model
         public string[] Facets { get; set; }
 
         public List<WalmartSearchItem> Items { get; set; }
-
     }
 
     public class WalmartSearchItem

@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("DenDream.Marketplace.Walmart.SDK")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Walmart Api SDK. Beta version")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("DenDream")]
 [assembly: AssemblyProduct("DenDream.Marketplace.Walmart.SDK")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
