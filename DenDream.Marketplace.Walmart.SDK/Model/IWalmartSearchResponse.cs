@@ -42,6 +42,7 @@ namespace DenDream.Marketplace.Walmart.SDK.Model
         decimal StandardShipRate { get; set; }
         bool Marketplace { get; set; }
         string ModelNumber { get; set; }
+        string SellerInfo { get; set; }
         string ProductUrl { get; set; }
         decimal CustomerRating { get; set; }
         int NumReviews { get; set; }

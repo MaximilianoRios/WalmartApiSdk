@@ -34,62 +34,6 @@ namespace DenDream.Marketplace.Walmart.SDK.Tests
         }
 
         [TestMethod]
-        public void SearchResultSerializationXml_ValidResponse_ModelPropertiesFilled()
-        {
-            var converter = ConverterFactory.GetConverter(WalmartResponseFormat.Xml);
-            var responseModel = converter.Convert<WalmartXmlSearchResponse>(_searchResponseSampleXml);
-            
-            // Several asserts to evaluate response correctness
-            Assert.IsFalse(string.IsNullOrEmpty(responseModel.Query), "query cannot be null");
-            Assert.IsFalse(string.IsNullOrEmpty(responseModel.ResponseGroup), "response group cannot be null");
-            Assert.IsTrue(responseModel.NumItems > 0, "Items must be greater than zero");
-            Assert.IsTrue(responseModel.TotalResults > 0, "Total results must be greater than zero");
-            Assert.IsFalse(string.IsNullOrEmpty(responseModel.Sort), "sort cannot be null");
-
-            var itemCount = responseModel.Items.Count();
-            Assert.IsTrue(itemCount > 0, "No items found");
-
-            // Assert on individual items
-            var itemsFound = 0;
-            foreach (var item in responseModel.Items)
-            {
-                Assert.IsTrue(item.Id > 0, "Inccorect item id");
-                itemsFound++;
-            }
-
-            // Extra validation, item count must match items found in the list
-            Assert.IsTrue(itemsFound == itemCount, $"Incorrect list count, found {itemsFound} expected {itemCount   }");
-        }
-
-        [TestMethod]
-        public void SearchResultSerializationJson_ValidResponse_ModelPropertiesFilled()
-        {
-            var converter = ConverterFactory.GetConverter(WalmartResponseFormat.Json);
-            var responseModel = converter.Convert<WalmartJsonSearchResponse>(_searchResponseSampleJson);
-
-            // Several asserts to evaluate response correctness
-            Assert.IsFalse(string.IsNullOrEmpty(responseModel.Query), "query cannot be null");
-            Assert.IsFalse(string.IsNullOrEmpty(responseModel.ResponseGroup), "response group cannot be null");
-            Assert.IsTrue(responseModel.NumItems > 0, "Items must be greater than zero");
-            Assert.IsTrue(responseModel.TotalResults > 0, "Total results must be greater than zero");
-            Assert.IsFalse(string.IsNullOrEmpty(responseModel.Sort), "sort cannot be null");
-
-            var itemCount = responseModel.Items.Count();
-            Assert.IsTrue(itemCount > 0, "No items found");
-
-            // Assert on individual items
-            var itemsFound = 0;
-            foreach (var item in responseModel.Items)
-            {
-                Assert.IsTrue(item.Id > 0, "Inccorect item id");
-                itemsFound++;
-            }
-
-            // Extra validation, item count must match items found in the list
-            Assert.IsTrue(itemsFound == itemCount, $"Incorrect list count, found {itemsFound} expected {itemCount   }");
-        }
-
-        [TestMethod]
         public void SearchResultSerializationJson_ValidResponse_AgnosticModelFilled()
         {
             var converter = ConverterFactory.GetConverter(WalmartResponseFormat.Json);
@@ -111,7 +55,38 @@ namespace DenDream.Marketplace.Walmart.SDK.Tests
             var itemsFound = 0;
             foreach (var item in responseModel.Items)
             {
-                Assert.IsTrue(item.Id > 0, "Inccorect item id");
+                Assert.IsTrue(item.Id > 0, "Incorrect item id");
+                Assert.IsTrue(item.Id > 0, "Incorrect parent id");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.Name), "Incorrect name");
+                Assert.IsTrue(item.SalePrice > 0, "Incorrect sales price");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.Upc), "Incorrect UPC");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.CategoryPath), "Incorrect category path");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.LongDescription), "Incorrect long description");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.ThumbnailImage), "Incorrect thumbnail image");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.MediumImage), "Incorrect medium image");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.LargeImage), "Incorrect large image");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.ModelNumber), "Incorrect model number");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.ProductUrl), "Incorrect product url");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.CategoryNode), "Incorrect category node");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.AddToCartUrl), "Incorrect add to cart url");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.AffiliateAddToCartUrl), "Incorrect affiliated add to cart url");
+                // Assert.IsTrue(!string.IsNullOrEmpty(item.OfferType), "Incorrect offer type");
+
+                // Image entities can be null in the model
+                if (item.ImageEntities != null)
+                {
+                    int images = 0;  // At least one image expected
+                    foreach (var image in item.ImageEntities)
+                    {
+                        Assert.IsTrue(!string.IsNullOrEmpty(image.ThumbnailImage), "Incorrect thumbnail image");
+                        Assert.IsTrue(!string.IsNullOrEmpty(image.ThumbnailImage), "Incorrect medium image");
+                        Assert.IsTrue(!string.IsNullOrEmpty(image.ThumbnailImage), "Incorrect large image");
+                        Assert.IsTrue(!string.IsNullOrEmpty(image.ThumbnailImage), "Incorrect entity type");
+                        images++;
+                    }
+                    Assert.IsTrue(images > 0, $"No any image found for the product");
+                }
+
                 itemsFound++;
             }
 
@@ -139,7 +114,39 @@ namespace DenDream.Marketplace.Walmart.SDK.Tests
             var itemsFound = 0;
             foreach (var item in responseModel.Items)
             {
-                Assert.IsTrue(item.Id > 0, "Inccorect item id");
+                Assert.IsTrue(item.Id > 0, "Incorrect item id");
+                Assert.IsTrue(item.Id > 0, "Incorrect parent id");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.Name), "Incorrect name");
+                Assert.IsTrue(item.SalePrice > 0, "Incorrect sales price");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.Upc), "Incorrect UPC");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.CategoryPath), "Incorrect category path");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.LongDescription), "Incorrect long description");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.ThumbnailImage), "Incorrect thumbnail image");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.MediumImage), "Incorrect medium image");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.LargeImage), "Incorrect large image");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.ModelNumber), "Incorrect model number");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.ProductUrl), "Incorrect product url");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.CategoryNode), "Incorrect category node");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.AddToCartUrl), "Incorrect add to cart url");
+                Assert.IsTrue(!string.IsNullOrEmpty(item.AffiliateAddToCartUrl), "Incorrect affiliated add to cart url");
+                // Assert.IsTrue(!string.IsNullOrEmpty(item.OfferType), "Incorrect offer type");
+
+                // Image entities can be null in the model
+                if (item.ImageEntities != null)
+                {
+                    // Subitems
+                    int images = 0;  // At least one image expected
+                    foreach (var image in item.ImageEntities)
+                    {
+                        Assert.IsTrue(!string.IsNullOrEmpty(image.ThumbnailImage), "Incorrect thumbnail image");
+                        Assert.IsTrue(!string.IsNullOrEmpty(image.ThumbnailImage), "Incorrect medium image");
+                        Assert.IsTrue(!string.IsNullOrEmpty(image.ThumbnailImage), "Incorrect large image");
+                        Assert.IsTrue(!string.IsNullOrEmpty(image.ThumbnailImage), "Incorrect entity type");
+                        images++;
+                    }
+                    Assert.IsTrue(images > 0, $"No any image found for the product");
+                }
+
                 itemsFound++;
             }
 

@@ -97,6 +97,9 @@ namespace DenDream.Marketplace.Walmart.SDK.Model.Json
         [JsonProperty("modelNumber")]
         public string ModelNumber { get; set; }
 
+        [JsonProperty("sellerInfo")]
+        public string SellerInfo { get; set; }
+
         [JsonProperty("productUrl")]
         public string ProductUrl { get; set; }
 

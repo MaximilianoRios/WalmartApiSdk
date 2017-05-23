@@ -103,6 +103,9 @@ namespace DenDream.Marketplace.Walmart.SDK.Model.Xml
         [XmlElement("modelNumber")]
         public string ModelNumber { get; set; }
 
+        [XmlElement("sellerInfo")]
+        public string SellerInfo { get; set; }
+
         [XmlElement("productUrl")]
         public string ProductUrl { get; set; }
 
