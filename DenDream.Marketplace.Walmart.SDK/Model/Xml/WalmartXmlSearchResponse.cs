@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using DenDream.Marketplace.Walmart.SDK.Model.Contract;
 
 /// <summary>
 /// The XML serialization model differs from the JSON model, in that case it's necessary to deserialize
@@ -41,6 +42,22 @@ namespace DenDream.Marketplace.Walmart.SDK.Model.Xml
                 if(Result != null)
                 {
                     return Result.Items;
+                }
+                return null;
+            }
+        }
+
+        [XmlElement("facets")]
+        public XmlFacets FacetsResult { get; set; }
+
+        [XmlIgnore]
+        public IEnumerable<IFacet> Facets
+        {
+            get
+            {
+                if (FacetsResult != null)
+                {
+                    return FacetsResult.Facets;
                 }
                 return null;
             }

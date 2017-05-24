@@ -4,6 +4,7 @@ using DenDream.Marketplace.Walmart.SDK.Model;
 using DenDream.Marketplace.Walmart.SDK.Model.Json;
 using DenDream.Marketplace.Walmart.SDK.Model.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DenDream.Marketplace.Walmart.SDK.Model.Contract;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,6 +19,8 @@ namespace DenDream.Marketplace.Walmart.SDK.Tests
     {
         private string _searchResponseSampleXml;
         private string _searchResponseSampleJson;
+        private string _searchResponseSampleWithFacetsJson;
+        private string _searchResponseSampleWithFacetsXml;
 
         [TestInitialize]
         public void SetUp()
@@ -27,9 +30,17 @@ namespace DenDream.Marketplace.Walmart.SDK.Tests
             {
                 _searchResponseSampleXml = reader.ReadToEnd();
             }
+            using (StreamReader reader = new StreamReader("SearchResponseSampleWithFacets.xml"))
+            {
+                _searchResponseSampleWithFacetsXml = reader.ReadToEnd();
+            }
             using (StreamReader reader = new StreamReader("SearchResponseSample.json"))
             {
                 _searchResponseSampleJson = reader.ReadToEnd();
+            }
+            using (StreamReader reader = new StreamReader("SearchResponseSampleWithFacets.json"))
+            {
+                _searchResponseSampleWithFacetsJson = reader.ReadToEnd();
             }
         }
 
@@ -39,7 +50,7 @@ namespace DenDream.Marketplace.Walmart.SDK.Tests
             var converter = ConverterFactory.GetConverter(WalmartResponseFormat.Json);
             var responseModel = converter.Convert<WalmartJsonSearchResponse>(_searchResponseSampleJson) as IWalmartSearchResponse;
 
-           // The model can be treated always as a IWalmartSearchResponse
+            // The model can be treated always as a IWalmartSearchResponse
 
             // Several asserts to evaluate response correctness
             Assert.IsFalse(string.IsNullOrEmpty(responseModel.Query), "query cannot be null");
@@ -152,6 +163,60 @@ namespace DenDream.Marketplace.Walmart.SDK.Tests
 
             // Extra validation, item count must match items found in the list
             Assert.IsTrue(itemsFound == itemCount, $"Incorrect list count, found {itemsFound} expected {itemCount   }");
+        }
+
+        [TestMethod]
+        public void SearchResultSerializationJson_FacetsActivated_FacetsModelFilled()
+        {
+            var converter = ConverterFactory.GetConverter(WalmartResponseFormat.Json);
+            var responseModel = converter.Convert<WalmartJsonSearchResponse>(_searchResponseSampleWithFacetsJson) as IWalmartSearchResponse;
+
+            // Only facets model is validated. 
+            Assert.IsNotNull(responseModel.Facets, "Facets are null");
+
+            foreach (var facet in responseModel.Facets)
+            {
+                Assert.IsTrue(!string.IsNullOrEmpty(facet.Name), "Facet name cannot be null");
+                Assert.IsTrue(!string.IsNullOrEmpty(facet.DisplayName), "Facet display name cannot be null");
+                Assert.IsTrue(!string.IsNullOrEmpty(facet.Properties.Multi), "Property multi cannot be null");
+                Assert.IsTrue(!string.IsNullOrEmpty(facet.Properties.NullCount), "Property nullcount cannot be null");
+
+                Assert.IsNotNull(facet.Values, "Facet values cannot be null");
+
+                // Values must have key/int value
+                foreach (var value in facet.Values)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(value.Name), "Value name cannot be null");
+                    Assert.IsTrue(value.Count > 0, "Value count must exist");
+                }
+            }
+        }
+
+        [TestMethod]
+        public void SearchResultSerializationXml_FacetsActivated_FacetsModelFilled()
+        {
+            var converter = ConverterFactory.GetConverter(WalmartResponseFormat.Xml);
+            var responseModel = converter.Convert<WalmartXmlSearchResponse>(_searchResponseSampleWithFacetsXml) as IWalmartSearchResponse;
+
+            // Only facets model is validated. 
+            Assert.IsNotNull(responseModel.Facets, "Facets are null");
+
+            foreach (var facet in responseModel.Facets)
+            {
+                Assert.IsTrue(!string.IsNullOrEmpty(facet.Name), "Facet name cannot be null");
+                Assert.IsTrue(!string.IsNullOrEmpty(facet.DisplayName), "Facet display name cannot be null");
+                Assert.IsTrue(!string.IsNullOrEmpty(facet.Properties.Multi), "Property multi cannot be null");
+                Assert.IsTrue(!string.IsNullOrEmpty(facet.Properties.NullCount), "Property nullcount cannot be null");
+
+                Assert.IsNotNull(facet.Values, "Facet values cannot be null");
+
+                // Values must have key/int value
+                foreach (var value in facet.Values)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(value.Name), "Value name cannot be null");
+                    Assert.IsTrue(value.Count > 0, "Value count must exist");
+                }
+            }
         }
     }
 }

@@ -67,13 +67,16 @@
     <Compile Include="IWalmartWrapper.cs" />
     <Compile Include="Converters\JsonConverter.cs" />
     <Compile Include="Model\ExtendedWebResponse.cs" />
-    <Compile Include="Model\IWalmartSearchResponse.cs" />
+    <Compile Include="Model\Contract\IFacet.cs" />
+    <Compile Include="Model\Contract\IWalmartSearchResponse.cs" />
+    <Compile Include="Model\Json\JsonFacet.cs" />
     <Compile Include="Model\WalmartEnums.cs" />
     <Compile Include="Model\WalmartErrorResponse.cs" />
     <Compile Include="Model\Json\WalmartJsonSearchResponse.cs" />
     <Compile Include="Model\WalmartSearchBaseResponse.cs" />
     <Compile Include="Model\WalmartSearchResponse.cs" />
     <Compile Include="Model\Xml\WalmartXmlSearchResponse.cs" />
+    <Compile Include="Model\Xml\XmlFacet.cs" />
     <Compile Include="Operation\WalmartOperationBase.cs" />
     <Compile Include="Operation\WalmartSearchOperation.cs" />
     <Compile Include="Operation\WalmartUriBuilder.cs" />

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DenDream.Marketplace.Walmart.SDK.Model
+namespace DenDream.Marketplace.Walmart.SDK.Model.Contract
 {
     /// <summary>
     /// Data contract to implement abstracting from the format implementation (Json/Xml)
@@ -22,7 +22,13 @@ namespace DenDream.Marketplace.Walmart.SDK.Model
         /// Abstraction that both have to implement to be able to access exactly in the same way
         /// </summary>
         IEnumerable<IWalmartSearchItem> Items { get; }
+
+        /// <summary>
+        /// Facets implementation. Empty if facets are not activated
+        /// </summary>
+        IEnumerable<IFacet> Facets { get;  }
     }
+
 
     public interface IWalmartSearchItem
     {

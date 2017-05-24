@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using DenDream.Marketplace.Walmart.SDK.Model.Contract;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace DenDream.Marketplace.Walmart.SDK.Model.Json
 {
@@ -38,11 +40,22 @@ namespace DenDream.Marketplace.Walmart.SDK.Model.Json
         [JsonProperty("items")]
         public List<WalmartJsonSearchItem> JsonItems { get; set; }
 
+        [JsonProperty("facets")]
+        public List<JsonFacet> JsonFacets { get; set; }
+
         public IEnumerable<IWalmartSearchItem> Items
         {
             get
             {
                 return JsonItems;
+            }
+        }
+
+        public IEnumerable<IFacet> Facets
+        {
+            get
+            {
+                return JsonFacets;
             }
         }
     }
