@@ -21,9 +21,10 @@ namespace DenDream.Marketplace.Walmart.ConsoleTest
             {
                 try
                 {
-                    //var facetsBuilder = new FacetsFilterBuilder();
-                    //facetsBuilder.AddFacet("availableOnline", true);
-                    var response = await wrapper.SearchAsync("Vintage Mario Bros with console", null, WalmartResponseFormat.Json, true);
+                    var facetsBuilder = new FacetsFilterBuilder();
+                    facetsBuilder.AddFilter("retailer", "Odyssey Computers");
+                    facetsBuilder.AddRange("price", 100, 200);
+                    var response = await wrapper.SearchAsync("notebook hp", null, WalmartResponseFormat.Json, true, facetsBuilder.Filters, facetsBuilder.Ranges);
 
                     Console.WriteLine("RESULT:");
                     Console.WriteLine($"Start: {response.Start}");
@@ -46,6 +47,7 @@ namespace DenDream.Marketplace.Walmart.ConsoleTest
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine($"Exception: {ex.Message}");
                     throw ex;
                 }
             });

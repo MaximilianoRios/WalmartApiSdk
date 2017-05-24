@@ -9,51 +9,90 @@ namespace DenDream.Marketplace.Walmart.SDK
 {
     public class FacetsFilterBuilder
     {
-        //private Dictionary<string, Type> AvailableFilters;
-        //private Dictionary<string, object> _facets;
+        private Dictionary<string, FacetRangeValues> _facetRanges;
+        private Dictionary<string, object> _facets;
 
         public FacetsFilterBuilder()
         {
-            //AvailableFilters = new Dictionary<string, Type>();
-            //AvailableFilters.Add("upc", typeof(string));
-            //AvailableFilters.Add("marketplace", typeof(bool));
-            //AvailableFilters.Add("bundle", typeof(bool));
-            //AvailableFilters.Add("stock", typeof(string));
-            //AvailableFilters.Add("offerType", typeof(string));
-            //AvailableFilters.Add("availableOnline", typeof(bool));
         }
 
-        //public FacetsFilterBuilder AddFacet(string fieldName, object value)
-        //{
-        //    if (!AvailableFilters.ContainsKey(fieldName))
-        //    {
-        //        throw new InvalidFacetFilterException($"{fieldName} is not a valid facet filter");
-        //    }
-        //    if (AvailableFilters[fieldName] != value.GetType())
-        //    {
-        //        throw new InvalidFacetFilterException($"{fieldName} must be of type {value.GetType()}");
-        //    }
-        //    if (_facets == null)
-        //    {
-        //        _facets = new Dictionary<string, object>();
-        //    }
-        //    if(_facets.ContainsKey(fieldName))
-        //    {
-        //        _facets[fieldName] = value;
-        //    }
-        //    else
-        //    {
-        //        _facets.Add(fieldName, value);
-        //    }
-        //    return this;
-        //}
+        public FacetsFilterBuilder AddFilter(string fieldName, object value)
+        {
+            fieldName = fieldName.Trim();
+            if (string.IsNullOrEmpty(fieldName))
+            {
+                throw new InvalidFacetFilterException($"Filter name cannot be null");
+            }
+            if (value == null)
+            {
+                throw new InvalidFacetFilterException($"Filter value cannot be null");
+            }
+            if (_facets == null)
+            {
+                _facets = new Dictionary<string, object>();
+            }
+            if (_facets.ContainsKey(fieldName))
+            {
+                _facets[fieldName] = value;
+            }
+            else
+            {
+                _facets.Add(fieldName, value);
+            }
+            return this;
+        }
 
-        //public Dictionary<string, object> Facets
-        //{
-        //    get
-        //    {
-        //        return _facets;
-        //    }
-        //}
+        public FacetsFilterBuilder AddRange(string fieldName, object rangeFrom, object rangeTo)
+        {
+            fieldName = fieldName.Trim();
+            if (string.IsNullOrEmpty(fieldName))
+            {
+                throw new InvalidFacetFilterException($"Filter name cannot be null");
+            }
+            if (rangeFrom == null || rangeTo == null)
+            {
+                throw new InvalidFacetFilterException($"From/To range cannot be null");
+            }
+            if (_facetRanges == null)
+            {
+                _facetRanges = new Dictionary<string, FacetRangeValues>();
+            }
+            if (_facetRanges.ContainsKey(fieldName))
+            {
+                _facetRanges[fieldName] = new FacetRangeValues(rangeFrom, rangeTo);
+            }
+            else
+            {
+                _facetRanges.Add(fieldName, new FacetRangeValues(rangeFrom, rangeTo));
+            }
+            return this;
+        }
+
+        public Dictionary<string, object> Filters
+        {
+            get
+            {
+                return _facets;
+            }
+        }
+
+        public Dictionary<string, FacetRangeValues> Ranges
+        {
+            get
+            {
+                return _facetRanges;
+            }
+        }
+    }
+
+    public class FacetRangeValues
+    {
+        public object RangeFrom { get; }
+        public object RangeTo { get; }
+        public FacetRangeValues(object from, object to)
+        {
+            RangeFrom = from;
+            RangeTo = to;
+        }
     }
 }

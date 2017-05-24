@@ -32,9 +32,9 @@ namespace DenDream.Marketplace.Walmart.SDK
             this._userAgent = userAgent;
         }
 
-        public async Task<IWalmartSearchResponse> SearchAsync(string query, int? categoryId = null, WalmartResponseFormat format = WalmartResponseFormat.Xml, bool facet = false, Dictionary<string, object> facetFilters = null, string[] facetRanges = null)
+        public async Task<IWalmartSearchResponse> SearchAsync(string query, int? categoryId = null, WalmartResponseFormat format = WalmartResponseFormat.Xml, bool facet = false, Dictionary<string, object> facetFilters = null, Dictionary<string, FacetRangeValues> facetRanges = null)
         {
-            var operation = this.SearchOperation(query, categoryId, format, facet, facetFilters);
+            var operation = this.SearchOperation(query, categoryId, format, facet, facetFilters, facetRanges);
             var converter = ConverterFactory.GetConverter(format);
 
             var webResponse = await this.RequestAsync(operation);
@@ -53,7 +53,7 @@ namespace DenDream.Marketplace.Walmart.SDK
             throw (new WalmartOperationException("Search operation failed", errorResponse));
         }
 
-        private WalmartSearchOperation SearchOperation(string query, int? categoryId, WalmartResponseFormat format, bool facet, Dictionary<string, object> facetFilters = null)
+        private WalmartSearchOperation SearchOperation(string query, int? categoryId, WalmartResponseFormat format, bool facet, Dictionary<string, object> facetFilters = null, Dictionary<string, FacetRangeValues> facetRanges = null)
         {
             var operation = new WalmartSearchOperation(ApiKey);
             operation.Query(query)
@@ -64,6 +64,13 @@ namespace DenDream.Marketplace.Walmart.SDK
                 foreach(var filterKey in facetFilters.Keys)
                 {
                     operation.AddFacetFilter(filterKey, facetFilters[filterKey]);
+                }
+            }
+            if(facetRanges != null)
+            {
+                foreach (var filterKey in facetRanges.Keys)
+                {
+                    operation.AddFacetRange(filterKey, facetRanges[filterKey].RangeFrom, facetRanges[filterKey].RangeTo);
                 }
             }
 

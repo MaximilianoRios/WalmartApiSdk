@@ -49,10 +49,11 @@ namespace DenDream.Marketplace.Walmart.SDK.Operation
         }
 
         /// <summary>
-        /// Facet filters are field/value from the list of available fields.
+        /// Facet filters are filters from the list of available facets returned by the service.
+        /// It is not necessary to obtain them in advance but filters are not guaranteed to exist
         /// </summary>
-        /// <param name="fieldName"></param>
-        /// <param name="value"></param>
+        /// <param name="fieldName">Name of the facet</param>
+        /// <param name="value">Value to filter (from the available list)</param>
         /// <returns></returns>
         public WalmartSearchOperation AddFacetFilter(string fieldName, object value)
         {
@@ -62,7 +63,20 @@ namespace DenDream.Marketplace.Walmart.SDK.Operation
             {
                 currentValue += ",";
             }
-            currentValue += $"{fieldName}={value}";
+            currentValue += $"{fieldName}:{value}";
+            base.AddOrReplace(key, currentValue);
+            return this;
+        }
+
+        public WalmartSearchOperation AddFacetRange(string fieldName, object rangeFrom, object rangeTo)
+        {
+            var key = $"facet.range";
+            var currentValue = string.Empty;
+            if (ParameterValue(key) != null)
+            {
+                currentValue += ",";
+            }
+            currentValue += $"{fieldName}:[{rangeFrom} TO {rangeTo}]";
             base.AddOrReplace(key, currentValue);
             return this;
         }
