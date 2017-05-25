@@ -13,7 +13,7 @@ namespace DenDream.Marketplace.Walmart.ConsoleTest
     {
         static void Main(string[] args)
         {
-            var apiKey = "pwyvatx2ujcrutpmysdm5sgc";
+            var apiKey = "your api key";
             var wrapper = new WalmartWrapper(apiKey);
 
             Console.WriteLine("Searching....");
