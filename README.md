@@ -10,8 +10,10 @@ Accessing the API is very simple, first, it is necessary to create a WalmartWrap
 If you don't have a key go to https://developer.walmartlabs.com/ and create an account to get your own key.
 Once you have a key you can create the object with the following code:
 
+```c#
 var apiKey = "your api key";
 var wrapper = new WalmartWrapper(apiKey);
+```
 
 The simplest search consists of a phrase. There are always two methods, a synchronous method and the async one.
 This is an example of an async call:
@@ -23,8 +25,12 @@ Task.Run(async () =>
 });
 ```
 
+The synchronous call is always the same method name without the Async prefix.
+
+
+
 The wrapper assumes Json as a default format, there is not any difference on using Json or Xml, the wrapper uses an
-agnostic model that is a contract that both serializer must implement in order to unify the output. 
+agnostic model that is a contract that both serializers must implement in order to unify the output. 
 The response is a IWalmartSearchResponse object instance with a rich set of information.
 
 Every other parameter rather than the search is optional. It is possible to search by category id (it requires to
@@ -54,8 +60,8 @@ Ranges require from/to values and they're mostly always numeric.
 The builder contains two properties that can be passed to the search:
 
 ```c#
-facetsBuilder.Filters
-facetsBuilder.Ranges
+facetsBuilder.Filters;
+facetsBuilder.Ranges;
 ```
 
 In the ConsoleTest project it is possible to see them working with a functional search.
