@@ -22,6 +22,12 @@ namespace DenDream.Marketplace.Walmart.SDK.Operation
             }
         }
 
+        public WalmartSearchOperation LinkSharePublisherId(string lsPublisherId)
+        {
+            base.AddOrReplace("lsPublisherId", lsPublisherId);
+            return this;
+        }
+
         /// <summary>
         /// Fluent Api behavior. Query parameter
         /// </summary>
@@ -33,9 +39,9 @@ namespace DenDream.Marketplace.Walmart.SDK.Operation
             return this;
         }
 
-        public WalmartSearchOperation Format(WalmartResponseFormat format)
+        public WalmartSearchOperation Format(ResponseFormat format)
         {
-            base.AddOrReplace("format", Enum.GetName(typeof(WalmartResponseFormat), format).ToLower());
+            base.AddOrReplace("format", Enum.GetName(typeof(ResponseFormat), format).ToLower());
             return this;
         }
 
@@ -81,10 +87,43 @@ namespace DenDream.Marketplace.Walmart.SDK.Operation
             return this;
         }
 
-        public WalmartSearchOperation Category(int categoryId)
+        public WalmartSearchOperation Category(string categoryId)
         {
             base.AddOrReplace("categoryId", categoryId);
             return this;
         }
+
+        public WalmartSearchOperation Start(int start)
+        {
+            base.AddOrReplace("start", start);
+            return this;
+        }
+
+        public WalmartSearchOperation Sort(SortCriteria criteria)
+        {
+            var value = Char.ToLowerInvariant(criteria.ToString()[0]) + criteria.ToString().Substring(1);
+            base.AddOrReplace("sort", value);
+            return this;
+        }
+
+        public WalmartSearchOperation Order(SortOrder order)
+        {
+            var value = Char.ToLowerInvariant(order.ToString()[0]) + order.ToString().Substring(1);
+            base.AddOrReplace("order", value);
+            return this;
+        }
+
+        public WalmartSearchOperation NumItems(int numItems)
+        {
+            base.AddOrReplace("numItems", numItems);
+            return this;
+        }
+        public WalmartSearchOperation ResponseGroup(ResponseGroup group)
+        {
+            var value = Char.ToLowerInvariant(group.ToString()[0]) + group.ToString().Substring(1);
+            base.AddOrReplace("responseGroup", value);
+            return this;
+        }
+
     }
 }

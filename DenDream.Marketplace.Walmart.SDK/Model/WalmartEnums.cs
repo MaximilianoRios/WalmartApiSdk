@@ -6,5 +6,12 @@ using System.Threading.Tasks;
 
 namespace DenDream.Marketplace.Walmart.SDK.Model
 {
-    public enum WalmartResponseFormat { Json = 0, Xml }
+    public enum ResponseFormat { Json = 0, Xml }
+
+    public enum SortCriteria { Relevance, Price, Title, Bestseller, CustomerRating, New }
+
+    public enum SortOrder { Asc, Desc }
+
+    public enum ResponseGroup {  Base, Full }
+
 }

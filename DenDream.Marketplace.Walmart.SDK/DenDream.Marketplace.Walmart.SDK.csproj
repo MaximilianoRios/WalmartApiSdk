@@ -62,6 +62,7 @@
     <Compile Include="Converters\ConverterFactory.cs" />
     <Compile Include="Converters\IConverter.cs" />
     <Compile Include="Exceptions\InvalidFacetFilterException.cs" />
+    <Compile Include="Exceptions\InvalidSearchParameterException.cs" />
     <Compile Include="Exceptions\WalmartOperationException.cs" />
     <Compile Include="FacetsFilterBuilder.cs" />
     <Compile Include="IWalmartWrapper.cs" />
@@ -70,6 +71,8 @@
     <Compile Include="Model\Contract\IFacet.cs" />
     <Compile Include="Model\Contract\IWalmartSearchResponse.cs" />
     <Compile Include="Model\Json\JsonFacet.cs" />
+    <Compile Include="Model\Request\SearchParameters.cs" />
+    <Compile Include="Model\Request\SearchParametersFactory.cs" />
     <Compile Include="Model\WalmartEnums.cs" />
     <Compile Include="Model\WalmartErrorResponse.cs" />
     <Compile Include="Model\Json\WalmartJsonSearchResponse.cs" />

@@ -9,9 +9,9 @@ namespace DenDream.Marketplace.Walmart.SDK.Converters
 {
     public class ConverterFactory
     {
-        public static IConverter GetConverter(WalmartResponseFormat format)
+        public static IConverter GetConverter(ResponseFormat format)
         {
-            if(format == WalmartResponseFormat.Json)
+            if(format == ResponseFormat.Json)
             {
                 return new JsonConverter();
             }

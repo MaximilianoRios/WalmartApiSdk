@@ -1,6 +1,7 @@
 ﻿using DenDream.Marketplace.Walmart.SDK;
 using DenDream.Marketplace.Walmart.SDK.Exceptions;
 using DenDream.Marketplace.Walmart.SDK.Model;
+using DenDream.Marketplace.Walmart.SDK.Model.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace DenDream.Marketplace.Walmart.ConsoleTest
     {
         static void Main(string[] args)
         {
-            var apiKey = "your api key";
+            var apiKey = "your search key";
             var wrapper = new WalmartWrapper(apiKey);
 
             Console.WriteLine("Searching....");
@@ -22,9 +23,13 @@ namespace DenDream.Marketplace.Walmart.ConsoleTest
                 try
                 {
                     var facetsBuilder = new FacetsFilterBuilder();
-                    facetsBuilder.AddFilter("retailer", "Odyssey Computers");
-                    facetsBuilder.AddRange("price", 100, 200);
-                    var response = await wrapper.SearchAsync("notebook hp", null, WalmartResponseFormat.Json, true, facetsBuilder.Filters, facetsBuilder.Ranges);
+                    // facetsBuilder.AddFilter("retailer", "Odyssey Computers");
+                    // facetsBuilder.AddRange("price", 100, 200);
+
+                    SearchParametersFactory factory = new SearchParametersFactory();
+                    var searchParameters = factory.Get("notebook hp", null, 25, 1, true, facetsBuilder.Filters, facetsBuilder.Ranges);
+
+                    var response = await wrapper.SearchAsync(searchParameters);
 
                     Console.WriteLine("RESULT:");
                     Console.WriteLine($"Start: {response.Start}");
@@ -39,7 +44,7 @@ namespace DenDream.Marketplace.Walmart.ConsoleTest
                     }
 
                     // Force an invalid search
-                    var invalidSearch = await wrapper.SearchAsync(null, null, WalmartResponseFormat.Xml);
+                    var invalidSearch = await wrapper.SearchAsync(new SearchParameters());
                 }
                 catch(WalmartOperationException operationException)
                 {

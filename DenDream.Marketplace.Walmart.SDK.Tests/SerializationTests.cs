@@ -47,7 +47,7 @@ namespace DenDream.Marketplace.Walmart.SDK.Tests
         [TestMethod]
         public void SearchResultSerializationJson_ValidResponse_AgnosticModelFilled()
         {
-            var converter = ConverterFactory.GetConverter(WalmartResponseFormat.Json);
+            var converter = ConverterFactory.GetConverter(ResponseFormat.Json);
             var responseModel = converter.Convert<WalmartJsonSearchResponse>(_searchResponseSampleJson) as IWalmartSearchResponse;
 
             // The model can be treated always as a IWalmartSearchResponse
@@ -108,7 +108,7 @@ namespace DenDream.Marketplace.Walmart.SDK.Tests
         [TestMethod]
         public void SearchResultSerializationXml_ValidResponse_AgnosticModelFilled()
         {
-            var converter = ConverterFactory.GetConverter(WalmartResponseFormat.Xml);
+            var converter = ConverterFactory.GetConverter(ResponseFormat.Xml);
             var responseModel = converter.Convert<WalmartXmlSearchResponse>(_searchResponseSampleXml) as IWalmartSearchResponse;
 
             // Several asserts to evaluate response correctness
@@ -168,7 +168,7 @@ namespace DenDream.Marketplace.Walmart.SDK.Tests
         [TestMethod]
         public void SearchResultSerializationJson_FacetsActivated_FacetsModelFilled()
         {
-            var converter = ConverterFactory.GetConverter(WalmartResponseFormat.Json);
+            var converter = ConverterFactory.GetConverter(ResponseFormat.Json);
             var responseModel = converter.Convert<WalmartJsonSearchResponse>(_searchResponseSampleWithFacetsJson) as IWalmartSearchResponse;
 
             // Only facets model is validated. 
@@ -195,7 +195,7 @@ namespace DenDream.Marketplace.Walmart.SDK.Tests
         [TestMethod]
         public void SearchResultSerializationXml_FacetsActivated_FacetsModelFilled()
         {
-            var converter = ConverterFactory.GetConverter(WalmartResponseFormat.Xml);
+            var converter = ConverterFactory.GetConverter(ResponseFormat.Xml);
             var responseModel = converter.Convert<WalmartXmlSearchResponse>(_searchResponseSampleWithFacetsXml) as IWalmartSearchResponse;
 
             // Only facets model is validated. 

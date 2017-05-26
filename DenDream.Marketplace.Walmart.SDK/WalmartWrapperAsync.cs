@@ -12,7 +12,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using DenDream.Marketplace.Walmart.SDK.Model.Contract;
-
+using DenDream.Marketplace.Walmart.SDK.Model.Request;
 
 namespace DenDream.Marketplace.Walmart.SDK
 {
@@ -32,15 +32,15 @@ namespace DenDream.Marketplace.Walmart.SDK
             this._userAgent = userAgent;
         }
 
-        public async Task<IWalmartSearchResponse> SearchAsync(string query, int? categoryId = null, WalmartResponseFormat format = WalmartResponseFormat.Xml, bool facet = false, Dictionary<string, object> facetFilters = null, Dictionary<string, FacetRangeValues> facetRanges = null)
+        public async Task<IWalmartSearchResponse> SearchAsync(SearchParameters searchParameters)
         {
-            var operation = this.SearchOperation(query, categoryId, format, facet, facetFilters, facetRanges);
-            var converter = ConverterFactory.GetConverter(format);
+            var operation = this.SearchOperation(searchParameters);
+            var converter = ConverterFactory.GetConverter(searchParameters.Format);
 
             var webResponse = await this.RequestAsync(operation);
             if (webResponse.StatusCode == HttpStatusCode.OK)
             {
-                if (format == WalmartResponseFormat.Xml)
+                if (searchParameters.Format == ResponseFormat.Xml)
                 {
                     return converter.Convert<WalmartXmlSearchResponse>(webResponse.Content) as IWalmartSearchResponse;
                 }
@@ -53,31 +53,47 @@ namespace DenDream.Marketplace.Walmart.SDK
             throw (new WalmartOperationException("Search operation failed", errorResponse));
         }
 
-        private WalmartSearchOperation SearchOperation(string query, int? categoryId, WalmartResponseFormat format, bool facet, Dictionary<string, object> facetFilters = null, Dictionary<string, FacetRangeValues> facetRanges = null)
+        private WalmartSearchOperation SearchOperation(SearchParameters searchParameters)
         {
             var operation = new WalmartSearchOperation(ApiKey);
-            operation.Query(query)
-                .Facet(facet)
-                .Format(format);
-            if(facetFilters != null)
+            operation.Query(searchParameters.Query)
+                .Facet(searchParameters.Facets)
+                .Format(searchParameters.Format)
+                .ResponseGroup(searchParameters.ResponseGroup)
+                .Sort(searchParameters.Sort)
+                .Order(searchParameters.Order);
+            if(searchParameters.FacetFilters != null)
             {
-                foreach(var filterKey in facetFilters.Keys)
+                foreach(var filterKey in searchParameters.FacetFilters.Keys)
                 {
-                    operation.AddFacetFilter(filterKey, facetFilters[filterKey]);
+                    operation.AddFacetFilter(filterKey, searchParameters.FacetFilters[filterKey]);
                 }
             }
-            if(facetRanges != null)
+            if(searchParameters.FacetRanges != null)
             {
-                foreach (var filterKey in facetRanges.Keys)
+                foreach (var filterKey in searchParameters.FacetRanges.Keys)
                 {
-                    operation.AddFacetRange(filterKey, facetRanges[filterKey].RangeFrom, facetRanges[filterKey].RangeTo);
+                    operation.AddFacetRange(filterKey, searchParameters.FacetRanges[filterKey].RangeFrom, searchParameters.FacetRanges[filterKey].RangeTo);
                 }
             }
 
-            if (categoryId != null)
+            if (!string.IsNullOrEmpty(searchParameters.CategoryId))
             {
-                operation.Category((int)categoryId);
+                operation.Category(searchParameters.CategoryId);
             }
+            if(searchParameters.NumItems != null)
+            {
+                operation.NumItems((int)searchParameters.NumItems);
+            }
+            if (searchParameters.Start != null)
+            {
+                operation.Start((int)searchParameters.Start);
+            }
+            if (!string.IsNullOrEmpty(searchParameters.LinkSharePublisherId))
+            {
+                operation.LinkSharePublisherId(searchParameters.LinkSharePublisherId);
+            }
+
             return operation;
         }
 
